@@ -5,6 +5,7 @@
 #include <math.h>
 #include <stdlib.h>
 
+//Added funciton definitions
 int playSmithy(struct gameState *state, int handPos, int i, int currentPlayer);
 int playAdventurer(struct gameState *state, int drawntreasure, int currentPlayer, int cardDrawn, int z, int temphand[MAX_HAND]);
 int playVillage(struct gameState *state, int handPos, int currentPlayer);
