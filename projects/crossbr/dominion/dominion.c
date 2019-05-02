@@ -5,13 +5,6 @@
 #include <math.h>
 #include <stdlib.h>
 
-//Added funciton definitions
-int playSmithy(struct gameState *state, int handPos, int i, int currentPlayer);
-int playAdventurer(struct gameState *state, int drawntreasure, int currentPlayer, int cardDrawn, int z, int temphand[MAX_HAND]);
-int playVillage(struct gameState *state, int handPos, int currentPlayer);
-int playMine(int choice1, int choice2, struct gameState *state, int handPos, int j, int currentPlayer, int i);
-int playCouncilRoom(struct gameState *state, int handPos, int i, int currentPlayer);
-
 
 int compare(const void* a, const void* b) {
   if (*(int*)a > *(int*)b)
@@ -1212,7 +1205,7 @@ int playMine(int choice1, int choice2, struct gameState *state, int handPos, int
 		return -1;
 	}
 
-	if ((getCost(state->hand[currentPlayer][choice1]) + 6) > getCost(choice2)) // Changed the +3 to a +6 making them able to go from a copper to a gold
+	if ((getCost(state->hand[currentPlayer][choice1])+6) < getCost(choice2)) // Changed the +3 to a +6 making them able to go from a copper to a gold
 	{
 		return -1;
 	}

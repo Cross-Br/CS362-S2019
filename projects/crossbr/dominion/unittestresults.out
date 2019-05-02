@@ -1,0 +1,48 @@
+----------UNIT TESTING RESULTS----------
+unitest1.c Results:
+----------Testing the Refactored Smithy Card.----------
+FAILURE: The cards drawn are wrong, Expected: 7, Actual: 8.
+FAILURE: The deck is wrong, Expected: 2, Actual: 1.
+SUCCESS: Other player's hand count is correct.
+SUCCESS: Other player's deck count is correct.
+SUCCESS: Return successful
+File 'dominion.c'
+Lines executed:18.29% of 563
+Creating 'dominion.c.gcov'
+
+unitest2.c Results:
+----------Testing the Refactored Adventurer Card.----------
+SUCCESS: The cards drawn are the correct ammount.
+SUCCESS: The deck contains the correct amount of cards
+SUCCESS: Cards are valid treasures.
+SUCCESS: Other player's hand count is correct.
+SUCCESS: Other player's deck count is correct.
+SUCCESS: Return successful
+File 'dominion.c'
+Lines executed:18.65% of 563
+Creating 'dominion.c.gcov'
+
+unitest3.c Results:
+----------Testing the Refactored Mine Card.----------
+-----Testing Copper To Silver-----
+SUCCESS: The cards drawn are the correct ammount.
+SUCCESS: The new card is a silver
+SUCCESS: Return successful
+-----Testing Copper To Gold-----
+FAILURE: the funciton let the upgrade go through
+File 'dominion.c'
+Lines executed:22.20% of 563
+Creating 'dominion.c.gcov'
+
+unitest4.c Results:
+----------Testing the Refactored Council Room Card.----------
+FAILURE: The cards drawn are wrong, Expected: 8, Actual: 9.
+FAILURE: The deck is wrong, Expected: 1, Actual: 0.
+-----Testing The Other Player-----
+FAILURE: The cards drawn for the other player are wrong, Expected: 1, Actual: 0.
+FAILURE: The deck is wrong for the other player, Expected: 9, Actual: 10.
+SUCCESS: Return successful
+File 'dominion.c'
+Lines executed:19.01% of 563
+Creating 'dominion.c.gcov'
+

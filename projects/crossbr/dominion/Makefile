@@ -32,6 +32,31 @@ runtests: testDrawCard
 	gcov dominion.c >> unittestresult.out
 	cat dominion.c.gcov >> unittestresult.out
 
+unittestresults: dominion.c rngs.o unittest1.c unittest2.c unittest3.c unittest4.c
+	
+	echo "----------UNIT TESTING RESULTS----------" > unittestresults.out
+
+	gcc -o unittest1 dominion.c unittest1.c rngs.o $(CFLAGS)
+	echo "unitest1.c Results:" >> unittestresults.out
+	./unittest1 >> unittestresults.out
+	gcov dominion.c >> unittestresults.out
+
+	gcc -o unittest2 dominion.c unittest2.c rngs.o $(CFLAGS)
+	echo "unitest2.c Results:" >> unittestresults.out
+	./unittest2 >> unittestresults.out
+	gcov dominion.c >> unittestresults.out
+
+	gcc -o unittest3 dominion.c unittest3.c rngs.o $(CFLAGS)
+	echo "unitest3.c Results:" >> unittestresults.out
+	./unittest3 >> unittestresults.out
+	gcov dominion.c >> unittestresults.out
+
+	gcc -o unittest4 dominion.c unittest4.c rngs.o $(CFLAGS)
+	echo "unitest4.c Results:" >> unittestresults.out
+	./unittest4 >> unittestresults.out
+	gcov dominion.c >> unittestresults.out
+
+	echo "----------CARD TEST RESULTS----------"
 
 player: player.c interface.o
 	gcc -o player player.c -g  dominion.o rngs.o interface.o $(CFLAGS)
