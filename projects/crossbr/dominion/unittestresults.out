@@ -1,5 +1,4 @@
 ----------UNIT TESTING RESULTS----------
-unitest1.c Results:
 ----------Testing the Refactored Smithy Card.----------
 FAILURE: The cards drawn are wrong, Expected: 7, Actual: 8.
 FAILURE: The deck is wrong, Expected: 2, Actual: 1.
@@ -7,10 +6,12 @@ SUCCESS: Other player's hand count is correct.
 SUCCESS: Other player's deck count is correct.
 SUCCESS: Return successful
 File 'dominion.c'
-Lines executed:18.29% of 563
+Lines executed:18.58% of 565
+Branches executed:17.35% of 415
+Taken at least once:13.49% of 415
+Calls executed:9.47% of 95
 Creating 'dominion.c.gcov'
 
-unitest2.c Results:
 ----------Testing the Refactored Adventurer Card.----------
 SUCCESS: The cards drawn are the correct ammount.
 SUCCESS: The deck contains the correct amount of cards
@@ -19,10 +20,12 @@ SUCCESS: Other player's hand count is correct.
 SUCCESS: Other player's deck count is correct.
 SUCCESS: Return successful
 File 'dominion.c'
-Lines executed:18.65% of 563
+Lines executed:18.58% of 565
+Branches executed:18.80% of 415
+Taken at least once:14.22% of 415
+Calls executed:9.47% of 95
 Creating 'dominion.c.gcov'
 
-unitest3.c Results:
 ----------Testing the Refactored Mine Card.----------
 -----Testing Copper To Silver-----
 SUCCESS: The cards drawn are the correct ammount.
@@ -31,10 +34,12 @@ SUCCESS: Return successful
 -----Testing Copper To Gold-----
 FAILURE: the funciton let the upgrade go through
 File 'dominion.c'
-Lines executed:22.20% of 563
+Lines executed:22.48% of 565
+Branches executed:28.43% of 415
+Taken at least once:16.39% of 415
+Calls executed:13.68% of 95
 Creating 'dominion.c.gcov'
 
-unitest4.c Results:
 ----------Testing the Refactored Council Room Card.----------
 FAILURE: The cards drawn are wrong, Expected: 8, Actual: 9.
 FAILURE: The deck is wrong, Expected: 1, Actual: 0.
@@ -43,6 +48,62 @@ FAILURE: The cards drawn for the other player are wrong, Expected: 1, Actual: 0.
 FAILURE: The deck is wrong for the other player, Expected: 9, Actual: 10.
 SUCCESS: Return successful
 File 'dominion.c'
-Lines executed:19.01% of 563
+Lines executed:19.29% of 565
+Branches executed:18.31% of 415
+Taken at least once:14.46% of 415
+Calls executed:10.53% of 95
+Creating 'dominion.c.gcov'
+
+----------Testing the Smithy Card Through cardEffect.----------
+-----Testing shuffle during smithy-----
+FAILURE: The cards drawn are wrong, Expected: 7, Actual: 8.
+FAILURE: The deck is wrong, Expected: 2, Actual: 1.
+SUCCESS: Other player's hand count is correct.
+SUCCESS: Other player's deck count is correct.
+SUCCESS: Return successful
+File 'dominion.c'
+Lines executed:23.19% of 565
+Branches executed:23.86% of 415
+Taken at least once:15.18% of 415
+Calls executed:12.63% of 95
+Creating 'dominion.c.gcov'
+
+----------Testing the Adventurer Card Through cardEffect.----------
+-----Testing shuffle during adventurer-----
+SUCCESS: Cards are valid treasures.
+SUCCESS: Other player's hand count is correct.
+SUCCESS: Other player's deck count is correct.
+SUCCESS: Return successful
+File 'dominion.c'
+Lines executed:26.90% of 565
+Branches executed:27.23% of 415
+Taken at least once:17.83% of 415
+Calls executed:13.68% of 95
+Creating 'dominion.c.gcov'
+
+----------Testing the Remodel Card Through cardEffect.----------
+SUCCESS: The cards in the hand are the correct ammount.
+SUCCESS: The card was swapped.
+SUCCESS: Other player's hand count is correct.
+SUCCESS: Other player's deck count is correct.
+SUCCESS: Return successful
+File 'dominion.c'
+Lines executed:23.54% of 565
+Branches executed:32.05% of 415
+Taken at least once:15.66% of 415
+Calls executed:14.74% of 95
+Creating 'dominion.c.gcov'
+
+----------Testing the Great Hall Card Through cardEffect.----------
+SUCCESS: The cards in the hand are the correct ammount.
+SUCCESS: Actions was increased by one.
+SUCCESS: Other player's hand count is correct.
+SUCCESS: Other player's deck count is correct.
+SUCCESS: Return successful
+File 'dominion.c'
+Lines executed:20.18% of 565
+Branches executed:22.41% of 415
+Taken at least once:13.49% of 415
+Calls executed:10.53% of 95
 Creating 'dominion.c.gcov'
 

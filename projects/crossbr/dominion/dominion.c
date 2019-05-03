@@ -754,7 +754,9 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 	{
 	  if (state->hand[currentPlayer][i] == j)
 	    {
-	      discardCard(i, currentPlayer, state, 0);			
+        //Changed flag to one here
+	      discardCard(i, currentPlayer, state, 1);			
+        //Changed flag to one here
 	      break;
 	    }
 	}
@@ -1261,6 +1263,12 @@ int discardCard(int handPos, int currentPlayer, struct gameState *state, int tra
   if (trashFlag < 1)
     {
       //add card to played pile
+
+      //lines added
+      state->discard[currentPlayer][state->discardCount[currentPlayer]] = state->hand[currentPlayer][handPos];
+      state->discardCount[currentPlayer]++;
+      //lines added
+
       state->playedCards[state->playedCardCount] = state->hand[currentPlayer][handPos]; 
       state->playedCardCount++;
     }
