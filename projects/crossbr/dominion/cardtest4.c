@@ -32,7 +32,7 @@ int main()
 	memcpy(&actualG, &copyG, sizeof(struct gameState));
 	int returnValue = cardEffect(great_hall, choice1, choice2, choice3, &actualG, handPos, &bonus);
 
-	//First assert is to check the hand size the same as one card was drawm, one discarded
+	//First assert is to check the hand size the same as one card was drawn, one discarded
 	if(actualG.handCount[playerOne] == copyG.handCount[playerOne])
 	{
 		printf("SUCCESS: The cards in the hand are the correct ammount.\n");

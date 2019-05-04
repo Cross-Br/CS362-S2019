@@ -50,9 +50,9 @@ int main()
 		printf("FAILURE: The cards drawn are wrong, Expected: %d, Actual: %d.\n", copyG.handCount[playerOne] - 1, actualG.handCount[playerOne]);
 	}
 
-	//Second is to check the new card is a silver
-	int cardOne = actualG.hand[playerOne][actualG.handCount[playerOne]-1];
-	if(cardOne != silver)
+	//Second is to check the new card is a silver, it's at zero due to discardCard
+	int cardOne = actualG.hand[playerOne][0];
+	if(cardOne == silver)
 	{
 		printf("SUCCESS: The new card is a silver\n");
 	}
