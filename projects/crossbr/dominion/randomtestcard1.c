@@ -60,7 +60,7 @@ int main()
 		 	}
 		}
 
-		//These two are used in funciton s that the cards call, therefore they need to be thought about and initialized
+		//This is used in funciton s that the cards call, therefore they need to be thought about and initialized
 		baseG.playedCardCount = 0;
 
 		memcpy(&actualG, &baseG, sizeof(struct gameState));
