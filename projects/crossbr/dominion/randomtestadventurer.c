@@ -15,7 +15,7 @@ int main()
 {
 	printf("----------Testing the Refactored Council Room Card W/ Random Tests----------\n");
 	//Initialize the variables
-	int j, k, l, m, n, o, p, q;
+	int j, k, l, m, n, o, p;
 	int z = 0;
 	int playerCount;
 
@@ -32,7 +32,7 @@ int main()
 	struct gameState baseG, actualG;
 
 	//This test takes a long time to run, therefore it is only run 20 times but still covers 100% of the branches
-	for(j = 0; j < 20; j++)
+	for(j = 0; j < 50; j++)
 	{
 		//Randomize all of gamestate
 		for(k = 0; k < sizeof(struct gameState); k++)
@@ -61,11 +61,7 @@ int main()
 		 	}
 		}
 
-		//Here are the special variables that the funcitons call like discard and gain card
-		for(q = 0; q < 27; q++)
-		{
-			baseG.supplyCount[q] = floor(Random()*30)+5;
-		}
+		//Here is the special variable that the funcitons call like discard
 		baseG.playedCardCount = 0;
 
 		//Here the gamestate is copied and the funciton is actually run

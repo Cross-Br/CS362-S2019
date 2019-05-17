@@ -16,7 +16,7 @@ int main()
 	printf("----------Testing the Refactored Smithy Card W/ Random Tests----------\n");
 	//Initialize the variables
 	int i = 0;
-	int j, k, l, m, n, o, p, q;
+	int j, k, l, m, n, o, p;
 	int handPos = 0;
 	int playerCount;
 
@@ -61,10 +61,6 @@ int main()
 		}
 
 		//These two are used in funciton s that the cards call, therefore they need to be thought about and initialized
-		for(q = 0; q < 27; q++)
-		{
-			baseG.supplyCount[q] = floor(Random()*30)+5;
-		}
 		baseG.playedCardCount = 0;
 
 		memcpy(&actualG, &baseG, sizeof(struct gameState));

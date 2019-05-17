@@ -16,7 +16,7 @@ int main()
 	printf("----------Testing the Refactored Council Room Card W/ Random Tests----------\n");
 	//Initialize the variables
 	int i = 0;
-	int j, k, l, m, n, o, p, q;
+	int j, k, l, m, n, o, p;
 	int handPos = 0;
 	int playerCount;
 
@@ -57,10 +57,6 @@ int main()
 		}
 
 		//Needed for funcitons that the FUT calls
-		for(q = 0; q < 27; q++)
-		{
-			baseG.supplyCount[q] = floor(Random()*30)+5;
-		}
 		baseG.playedCardCount = 0;
 
 		//Gamestate is copied and the funciton is ran
