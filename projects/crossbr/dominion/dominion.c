@@ -1267,6 +1267,12 @@ int discardCard(int handPos, int currentPlayer, struct gameState *state, int tra
   //if card is not trashed, added to Played pile 
   if (trashFlag < 1)
     {
+
+      //lines added
+      state->discard[currentPlayer][state->discardCount[currentPlayer]] = state->hand[currentPlayer][handPos];
+      state->discardCount[currentPlayer]++;
+      //lines added
+
       //add card to played pile
       state->playedCards[state->playedCardCount] = state->hand[currentPlayer][handPos]; 
       state->playedCardCount++;
