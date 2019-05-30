@@ -1,109 +1,107 @@
+// unittest1.c
+// This will randomly test the card smithy
+
 #include "dominion.h"
 #include "dominion_helpers.h"
 #include <string.h>
 #include <stdio.h>
 #include <assert.h>
 #include "rngs.h"
-/*
-*   Random test for smithyEffect function
-*   Function definition: 
-*   int smithyEffect(int handPos, int currentPlayer, struct gameState *state)
-*
-*/
+#include <stdlib.h>
+#include <time.h>
+#include <math.h>
 
-int testSmithyEffect(int handPos, int p, struct gameState *post);
+int main()
+{
+	printf("----------Testing the Refactored Smithy Card W/ Random Tests----------\n");
+	//Initialize the variables
+	int i = 0;
+	int j, k, l, m, n, o, p;
+	int handPos = 0;
+	int playerCount;
 
-int main () {
-    int k[10] = {adventurer, council_room, feast, gardens, mine,
-	       remodel, smithy, village, baron, great_hall};
+	//Setting the random seeds so the Random() function will work
+	SelectStream(2);
+	PutSeed(3);
 
-    struct gameState G;
-    
-    int n, i, p, result;
-    SelectStream(2);
-    PutSeed(4);
-    printf ("*****RUNNING smithyEffect() RANDOM TESTS...*****\n");
+	//Creating the gamestates
+	struct gameState baseG, actualG;
 
-    for (n = 0; n < 2000; n++) {
-        printf ("---Test %d:\n", n+1);
-        // Generate random game state
-        for (i = 0; i < sizeof(struct gameState); i++) {
-            ((char*)&G)[i] = floor(Random() * 256);
-        }
+	//Running the test 1000 times
+	for(j = 0; j < 1000; j++)
+	{
+		//Randomizes all parts of the game state
+		for(k = 0; k < sizeof(struct gameState); k++)
+		{
+			((char*)&baseG)[k] = floor(Random() * 256);
+		}
 
-        // Random player
-        p = floor(Random() * 4);
+		//Then afterwards sets the parts that need to not be random
+		//first is players in the game
+		playerCount = floor(Random()*3)+1;
 
-        // Random deck
-        G.deckCount[p] = floor(Random() * MAX_DECK);
-        for(i = 0; i < G.deckCount[p]; i++){
-            int randCard = (rand() % (26 - 0 + 1)) + 0; 
-            G.deck[p][i] = randCard;
-        }
+		//Next is the deck hand and discard as they can only be a certain size and must be filled with some cards
+		for(l = 0; l < playerCount; l++)
+		{
+			baseG.deckCount[l] = floor(Random() * MAX_DECK);
+		 	baseG.handCount[l] = floor(Random() * MAX_HAND);
+		 	baseG.discardCount[l] = floor(Random() * MAX_DECK);
+		 	for(m = 0; m < baseG.deckCount[l]; m++)
+		 	{
+				baseG.deck[l][m] = floor(Random() * 26);
+		 	}
+		 	for(n = 0; n < baseG.handCount[l]; n++)
+		 	{
+		 		baseG.hand[l][n] = floor(Random() * 26);
+		 	}
+		 	for(o = 0; o < baseG.discardCount[l]; o++)
+		 	{
+		 		baseG.discard[l][o] = floor(Random() * 26);
+		 	}
+		}
 
-        // Random discard
-        G.discardCount[p] = floor(Random() * MAX_DECK);
-        for(i = 0; i < G.discardCount[p]; i++){
-            int randCard = (rand() % (26 - 0 + 1)) + 0; 
-            G.discard[p][i] = randCard;
-        }
+		//This is used in funciton s that the cards call, therefore they need to be thought about and initialized
+		baseG.playedCardCount = 0;
 
-        // Random hand
-        G.handCount[p] = floor(Random() * MAX_HAND);
-        for(i = 0; i < G.handCount[p]; i++){
-            int randCard = (rand() % (26 - 0 + 1)) + 0; 
-            G.hand[p][i] = randCard;
-        }
+		memcpy(&actualG, &baseG, sizeof(struct gameState));
+		int returnValue = playSmithy(&actualG, handPos, i, 0);
 
-        // Random played card count
-        G.playedCardCount = floor(Random() * MAX_HAND);
-        for(i = 0; i < G.playedCardCount; i++){
-            int randCard = (rand() % (26 - 0 + 1)) + 0; 
-            G.playedCards[i] = randCard;
-        }
+		//First assert is to check to make sure that the hand count has gone up 2 (+3 due to smithy and -1 due to losing card)
+		//assert(actualG.handCount[0] == baseG.handCount[0] + 2);
+		if(actualG.handCount[0] == baseG.handCount[0] + 2)
+		{
+			printf("SUCCESS: The cards drawn are the correct ammount.\n");
+		}
+		else
+		{
+			printf("FAILURE: The cards drawn are wrong, Expected: %d, Actual: %d.\n", baseG.handCount[0] + 2, actualG.handCount[0]);
+		}
 
-        // Random smithy supply
-        G.supplyCount[smithy] = (rand() % (50 - 1 + 1)) + 1;
+		//Second is to check it drew from the right pile
+		if(actualG.deckCount[0] <= baseG.deckCount[0] - 3)
+		{
+			printf("SUCCESS: The deck contains the correct amount of cards\n");
+		}
+		else
+		{
+			printf("FAILURE: The deck is wrong, Expected: %d, Actual: %d.\n", baseG.deckCount[0] - 3, actualG.deckCount[0]);
+		}
+		//assert(actualG.deckCount[0] - 3 == baseG.deckCount[0]);
 
-        // Gain card we are testing
-        result = gainCard(smithy, &G, 2, p);
-        assert(result == 0);
-        
-        // Run test function
-        int handPos = G.handCount[p]-1;
-        testSmithyEffect(handPos, p, &G);
+		//Loop through the other players to make sure that their hands didnt change
+		//Start at 1 to avoid player one
+		for(p = 1; p < playerCount; p++)
+		{
+			//Third and fourth is to check the other player was unaffected
+			assert(actualG.handCount[p] == baseG.handCount[p]);
+			printf("SUCCESS: Other player's hand count is correct.\n");
+			assert(actualG.deckCount[p] == baseG.deckCount[p]);
+			printf("SUCCESS: Other player's deck count is correct.\n");
+		}
 
-        printf("\n");
-    }
+		//Lastly is to check it returned successfully
+		assert(returnValue == 0);
+		printf("SUCCESS: Return successful\n");
 
-    return 0;
-}
-
-
-int testSmithyEffect(int handPos, int p, struct gameState *post){
-    printf("TESTING SMITHY EFFECT...\n");
-    printf ("PLAYER NUMBER: %d\n", p);
-
-    struct gameState pre;
-    memcpy (&pre, post, sizeof(struct gameState));
-
-    int result;
-
-    int initial_handsize = pre.handCount[p];
-    printf("Initial Handsize: %d\n", initial_handsize);
-
-    result = smithyEffect(handPos, p, post);
-    assert(result == 0);
-
-    int final_handsize = post->handCount[p];
-    printf("Final Handsize: %d\n", final_handsize);
-
-    //assert(final_handsize == (initial_handsize+2));
-    if (final_handsize == (initial_handsize+2)) {
-        printf("PASSED.\n");
-    } else {
-        printf("FAILED.\n");
-    }
-
-    return 0;
+	}
 }

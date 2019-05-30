@@ -1,99 +1,117 @@
+// unittest1.c
+// This will randomly test the card adventurer
+
 #include "dominion.h"
 #include "dominion_helpers.h"
 #include <string.h>
 #include <stdio.h>
 #include <assert.h>
 #include "rngs.h"
-/*
-*   Random test for adventurerEffect function
-*   Function definition: 
-*   int adventurerEffect(int currentPlayer, struct gameState *state)
-*
-*/
-int testAdventurerEffect(int p, struct gameState *post);
+#include <stdlib.h>
+#include <time.h>
+#include <math.h>
 
-int main () {
+int main()
+{
+	printf("----------Testing the Refactored Council Room Card W/ Random Tests----------\n");
+	//Initialize the variables
+	int j, k, l, m, n, o, p;
+	int z = 0;
+	int playerCount;
 
-    int k[10] = {adventurer, council_room, feast, gardens, mine,
-	       remodel, smithy, village, baron, great_hall};
+	//Initializing some variables that adventurer needs that are not important
+	int drawnTreasure = 0;
+	int cardDrawn = 0;
+	int temphand[MAX_HAND];
 
-    struct gameState G;
-    
-    int n, i, p, result;
-    SelectStream(2);
-    PutSeed(4);
-    printf ("*****RUNNING adventurerEffect() RANDOM TESTS...*****\n");
+	//Setting up random
+	SelectStream(2);
+	PutSeed(3);
 
-    for (n = 0; n < 2000; n++) {
-        printf ("---Test %d:\n", n+1);
-        // Generate random game state
-        for (i = 0; i < sizeof(struct gameState); i++) {
-            ((char*)&G)[i] = floor(Random() * 256);
-        }
+	//Setting up the gamestate
+	struct gameState baseG, actualG;
 
-        // Random player
-        p = floor(Random() * 4);
+	//This test takes a long time to run, therefore it is only run 20 times but still covers 100% of the branches
+	for(j = 0; j < 50; j++)
+	{
+		//Randomize all of gamestate
+		for(k = 0; k < sizeof(struct gameState); k++)
+		{
+			((char*)&baseG)[k] = floor(Random() * 256);
+		}
 
-        // Random deck
-        G.deckCount[p] = floor(Random() * MAX_DECK);
-        for(i = 0; i < G.deckCount[p]; i++){
-            int randCard = (rand() % (26 - 0 + 1)) + 0; 
-            G.deck[p][i] = randCard;
-        }
+		//Similar to smithy this is setting the variables that are needed
+		playerCount = floor(Random()*3)+1;
+		for(l = 0; l < playerCount; l++)
+		{
+			baseG.deckCount[l] = floor(Random() * MAX_DECK);
+		 	baseG.handCount[l] = floor(Random() * MAX_HAND);
+		 	baseG.discardCount[l] = floor(Random() * MAX_DECK);
+		 	for(m = 0; m < baseG.deckCount[l]; m++)
+		 	{
+				baseG.deck[l][m] = floor(Random() * 26);
+		 	}
+		 	for(n = 0; n < baseG.handCount[l]; n++)
+		 	{
+		 		baseG.hand[l][n] = floor(Random() * 26);
+		 	}
+		 	for(o = 0; o < baseG.discardCount[l]; o++)
+		 	{
+		 		baseG.discard[l][o] = floor(Random() * 26);
+		 	}
+		}
 
-        // Random discard
-        G.discardCount[p] = floor(Random() * MAX_DECK);
-        for(i = 0; i < G.discardCount[p]; i++){
-            int randCard = (rand() % (26 - 0 + 1)) + 0; 
-            G.discard[p][i] = randCard;
-        }
+		//Here is the special variable that the funcitons call like discard
+		baseG.playedCardCount = 0;
 
-        // Random hand
-        G.handCount[p] = floor(Random() * MAX_HAND);
-        for(i = 0; i < G.handCount[p]; i++){
-            int randCard = (rand() % (26 - 0 + 1)) + 0; 
-            G.hand[p][i] = randCard;
-        }
+		//Here the gamestate is copied and the funciton is actually run
+		memcpy(&actualG, &baseG, sizeof(struct gameState));
+		int returnValue = playAdventurer(&actualG, drawnTreasure, 0, cardDrawn, z, temphand);
 
-        G.supplyCount[adventurer] = (rand() % (50 - 1 + 1)) + 1;
+		//First assert is to verify that two cards have been added to the hand
+		if(actualG.handCount[0] == baseG.handCount[0] + 2)
+		{
+			printf("SUCCESS: The cards drawn are the correct ammount.\n");
+		}
+		else
+		{
+			printf("FAILURE: The cards drawn are wrong, Expected: %d, Actual: %d.\n", baseG.handCount[0] + 2, actualG.handCount[0]);
+		}
 
-        // Gain card we are testing
-        gainCard(adventurer, &G, 2, p);
+		//Second is to check it drew from the right pile
+		if(actualG.deckCount[0] == baseG.deckCount[0] - 2)
+		{
+			printf("SUCCESS: The deck contains the correct amount of cards\n");
+		}
+		else
+		{
+			printf("FAILURE: The deck is wrong, Expected: %d, Actual: %d.\n", baseG.deckCount[0] - 2, actualG.deckCount[0]);
+		}
 
-        // Run test function
-        testAdventurerEffect(p, &G);
+		//Third is to check if the cards drawn are treasures
+		int cardOne = actualG.hand[0][actualG.handCount[0]-2];
+		int cardTwo = actualG.hand[0][actualG.handCount[0]-1];
+		if((cardOne == copper || cardOne == silver || cardOne == gold) && (cardTwo == copper || cardTwo == silver || cardTwo == gold))
+		{
+			printf("SUCCESS: Cards are valid treasures.\n");
+		}
+		else
+		{
+			printf("FAILURE: One of the two cards drawn are not treasures.\n");
+		}
 
-        printf("\n");
-    }
+		//fourth and fifth is to check the other player was unaffected
+		//Start at 1 to avoid playerone
+		for(p = 1; p < playerCount; p++)
+		{
+			assert(actualG.handCount[p] == baseG.handCount[p]);
+			printf("SUCCESS: Other player's hand count is correct.\n");
+			assert(actualG.deckCount[p] == baseG.deckCount[p]);
+			printf("SUCCESS: Other player's deck count is correct.\n");
+		}
 
-    return 0;
-}
-
-
-int testAdventurerEffect(int p, struct gameState *post){
-    printf("TESTING ADVENTURER EFFECT...\n");
-    printf ("PLAYER NUMBER: %d\n", p);
-
-    struct gameState pre;
-    memcpy (&pre, post, sizeof(struct gameState));
-
-    int result;
-
-    int initial_handsize = pre.handCount[p];
-    printf("Initial Handsize: %d\n", initial_handsize);
-
-    result = adventurerEffect(p, post);
-    assert(result == 0);
-
-    int final_handsize = post->handCount[p];
-    printf("Final Handsize: %d\n", final_handsize);
-
-    //assert(final_handsize == (initial_handsize+2));
-    if (final_handsize == (initial_handsize+2)){
-        printf("PASSED.\n");
-    }else{
-        printf("FAILED.\n");
-    }
-
-    return 0;
+		//Lastly is to check it returned successfully
+		assert(returnValue == 0);
+		printf("SUCCESS: Return successful\n");
+	}
 }

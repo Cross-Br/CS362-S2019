@@ -1,121 +1,115 @@
+// unittest1.c
+// This will randomly test the card council room
+
 #include "dominion.h"
 #include "dominion_helpers.h"
 #include <string.h>
 #include <stdio.h>
 #include <assert.h>
 #include "rngs.h"
-/*
-*   Random test for villageEffect function
-*   Function definition: 
-*   int villageEffect(int handPos, int currentPlayer, struct gameState *state)
-*
-*/
+#include <stdlib.h>
+#include <time.h>
+#include <math.h>
 
-int testVillageEffect(int handPos, int p, struct gameState *post);
+int main()
+{
+	printf("----------Testing the Refactored Council Room Card W/ Random Tests----------\n");
+	//Initialize the variables
+	int i = 0;
+	int j, k, l, m, n, o, p;
+	int handPos = 0;
+	int playerCount;
 
-int main () {
-    int k[10] = {adventurer, council_room, feast, gardens, mine,
-	       remodel, smithy, village, baron, great_hall};
+	//Setting up the random funciton
+	SelectStream(2);
+	PutSeed(3);
 
-    struct gameState G;
-    
-    int n, i, p, result;
-    SelectStream(2);
-    PutSeed(4);
-    printf ("*****RUNNING villageEffect() RANDOM TESTS...*****\n");
+	//Creating the gamestates
+	struct gameState baseG, actualG;
 
-    for (n = 0; n < 2000; n++) {
-        printf ("---Test %d:\n", n+1);
-        // Generate random game state
-        for (i = 0; i < sizeof(struct gameState); i++) {
-            ((char*)&G)[i] = floor(Random() * 256);
-        }
+	//This is only run a couple times (20) but still covers 100% of the branches
+	for(j = 0; j < 20; j++)
+	{
+		//Randomize the gamestate
+		for(k = 0; k < sizeof(struct gameState); k++)
+		{
+			((char*)&baseG)[k] = floor(Random() * 256);
+		}
+		//Then set the playercount and hand, discard, and deck sizes manually as those will cause errors
+		playerCount = floor(Random()*3)+1;
+		for(l = 0; l < playerCount; l++)
+		{
+			baseG.deckCount[l] = floor(Random() * MAX_DECK);
+		 	baseG.handCount[l] = floor(Random() * MAX_HAND);
+		 	baseG.discardCount[l] = floor(Random() * MAX_DECK);
+		 	for(m = 0; m < baseG.deckCount[l]; m++)
+		 	{
+				baseG.deck[l][m] = floor(Random() * 26);
+		 	}
+		 	for(n = 0; n < baseG.handCount[l]; n++)
+		 	{
+		 		baseG.hand[l][n] = floor(Random() * 26);
+		 	}
+		 	for(o = 0; o < baseG.discardCount[l]; o++)
+		 	{
+		 		baseG.discard[l][o] = floor(Random() * 26);
+		 	}
+		}
 
-        // Random player
-        p = floor(Random() * 4);
+		//Needed for funcitons that the FUT calls
+		baseG.playedCardCount = 0;
 
-        // Random deck
-        G.deckCount[p] = floor(Random() * MAX_DECK);
-        for(i = 0; i < G.deckCount[p]; i++){
-            int randCard = (rand() % (26 - 0 + 1)) + 0; 
-            G.deck[p][i] = randCard;
-        }
+		//Gamestate is copied and the funciton is ran
+		memcpy(&actualG, &baseG, sizeof(struct gameState));
+		int returnValue = playCouncilRoom(&actualG, handPos, i, 0);
 
-        // Random discard
-        G.discardCount[p] = floor(Random() * MAX_DECK);
-        for(i = 0; i < G.discardCount[p]; i++){
-            int randCard = (rand() % (26 - 0 + 1)) + 0; 
-            G.discard[p][i] = randCard;
-        }
+		//First assert is to check to make sure that the hand count has gone up 3
+		if(actualG.handCount[0] == baseG.handCount[0] + 3)
+		{
+			printf("SUCCESS: The cards drawn are the correct ammount.\n");
+		}
+		else
+		{
+			printf("FAILURE: The cards drawn are wrong, Expected: %d, Actual: %d.\n", baseG.handCount[0] + 3, actualG.handCount[0]);
+		}
 
-        // Random hand
-        G.handCount[p] = floor(Random() * MAX_HAND);
-        for(i = 0; i < G.handCount[p]; i++){
-            int randCard = (rand() % (26 - 0 + 1)) + 0; 
-            G.hand[p][i] = randCard;
-        }
+		//Second is to check it drew from the right pile
+		if(actualG.deckCount[0] == baseG.deckCount[0] - 4)
+		{
+			printf("SUCCESS: The deck contains the correct amount of cards\n");
+		}
+		else
+		{
+			printf("FAILURE: The deck is wrong, Expected: %d, Actual: %d.\n", baseG.deckCount[0] - 4, actualG.deckCount[0]);
+		}
 
-        // Random played card count
-        G.playedCardCount = floor(Random() * MAX_HAND);
-        for(i = 0; i < G.playedCardCount; i++){
-            int randCard = (rand() % (26 - 0 + 1)) + 0; 
-            G.playedCards[i] = randCard;
-        }
+		printf("-----Testing The Other Player-----\n");
 
-        // Random number of actions
-        G.numActions = floor(Random() * 100);
+		//Third and fourth is to check the other player drew one card and lost one card from the deck
+		//Start at 1 to avoid player one
+		for(p = 1; p < playerCount; p++)
+		{
+			if(actualG.handCount[p] == baseG.handCount[p] + 1)
+			{
+				printf("SUCCESS: The cards drawn are the correct ammount.\n");
+			}
+			else
+			{
+				printf("FAILURE: The cards drawn for the other player are wrong, Expected: %d, Actual: %d.\n", baseG.handCount[p] + 1, actualG.handCount[p]);
+			}
 
-        // Random village supply
-        G.supplyCount[village] = (rand() % (50 - 1 + 1)) + 1;
+			if(actualG.deckCount[p] == baseG.deckCount[p] - 1)
+			{
+				printf("SUCCESS: The deck contains the correct amount of cards\n");
+			}
+			else
+			{
+				printf("FAILURE: The deck is wrong for the other player, Expected: %d, Actual: %d.\n", baseG.deckCount[p] - 1, actualG.deckCount[p]);
+			}
+		}
 
-        // Gain card we are testing
-        result = gainCard(village, &G, 2, p);
-        assert(result == 0);
-        
-        // Run test function
-        int handPos = G.handCount[p]-1;
-        testVillageEffect(handPos, p, &G);
-
-        printf("\n");
-    }
-
-    return 0;
-}
-
-
-int testVillageEffect(int handPos, int p, struct gameState *post){
-    printf("TESTING VILLAGE EFFECT...\n");
-    printf ("PLAYER NUMBER: %d\n", p);
-    
-    struct gameState pre;
-    memcpy (&pre, post, sizeof(struct gameState));
-
-    int result;
-
-    // get initial values
-    int initial_handsize = pre.handCount[p];
-    int initial_actions = pre.numActions;
-
-    result = villageEffect(handPos, p, post);
-    assert(result == 0);
-
-    // get final values
-    int final_handsize = post->handCount[p];
-    int final_actions = post->numActions;
-
-    printf("Initial Handsize: %d\n", initial_handsize);
-    printf("Final Handsize: %d\n", final_handsize);
-
-    printf("Initial Num Actions: %d\n", initial_actions);
-    printf("Final Num Actions: %d\n", final_actions);
-
-    //assert(final_handsize == initial_handsize);
-    //assert(final_actions == (initial_actions+2));
-    if ((final_handsize == initial_handsize) && (final_actions == (initial_actions+2))) {
-        printf("PASSED.\n");
-    } else {
-        printf("FAILED.\n");
-    }
-
-    return 0;
+		//Lastly is to check it returned successfully
+		assert(returnValue == 0);
+		printf("SUCCESS: Return successful\n");
+	}
 }
