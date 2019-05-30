@@ -647,7 +647,7 @@ int getCost(int cardNumber)
 int smithyEffect(int handPos, int currentPlayer, struct gameState *state){
   //+3 Cards
   int i; 
-  for (i = 0; i < 3; i++) // ERROR: draws 4 cards instead of 3
+  for (i = 0; i < 4; i++) // ERROR: draws 4 cards instead of 3
   {
     drawCard(currentPlayer, state);
   }
@@ -662,7 +662,7 @@ int adventurerEffect(int currentPlayer, struct gameState *state){
   int z = 0;
   int cardDrawn;
   int temphand[MAX_HAND];// moved above the if statement
-  while(drawntreasure<2){ // ERROR: changed < to >
+  while(drawntreasure>2){ // ERROR: changed < to >
     if (state->deckCount[currentPlayer] <1){//if the deck is empty we need to shuffle discard and add to deck
       shuffle(currentPlayer, state);
     }
@@ -700,7 +700,9 @@ int villageEffect(int handPos, int currentPlayer, struct gameState *state){
 int greatHallEffect(int handPos, int currentPlayer, struct gameState *state){
   //+1 Card
   int i;
+  for(i = 0; i < 2; i++){  //ERROR: Added a for loop to draw card more than one
     drawCard(currentPlayer, state);
+  }
   
   //+1 Actions
   state->numActions++;
@@ -725,7 +727,7 @@ int councilRoomEffect(int handPos, int currentPlayer, struct gameState *state){
   //Each other player draws a card
   for (i = 0; i < state->numPlayers; i++)
   {
-    if ( i != currentPlayer ) // ERROR: Changed != to ==
+    if ( i == currentPlayer ) // ERROR: Changed != to ==
     {
       drawCard(i, state);
     }
