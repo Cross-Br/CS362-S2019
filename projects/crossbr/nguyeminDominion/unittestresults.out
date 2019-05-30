@@ -1,0 +1,109 @@
+----------UNIT TESTING RESULTS----------
+----------Testing the Refactored Smithy Card.----------
+FAILURE: The cards drawn are wrong, Expected: 7, Actual: 8.
+FAILURE: The deck is wrong, Expected: 2, Actual: 1.
+SUCCESS: Other player's hand count is correct.
+SUCCESS: Other player's deck count is correct.
+SUCCESS: Return successful
+File 'dominion.c'
+Lines executed:18.43% of 559
+Branches executed:17.18% of 419
+Taken at least once:13.37% of 419
+Calls executed:9.47% of 95
+Creating 'dominion.c.gcov'
+
+----------Testing the Refactored Adventurer Card.----------
+FAILURE: The cards drawn are wrong, Expected: 7, Actual: 5.
+FAILURE: The deck is wrong, Expected: 3, Actual: 5.
+SUCCESS: Cards are valid treasures.
+SUCCESS: Other player's hand count is correct.
+SUCCESS: Other player's deck count is correct.
+SUCCESS: Return successful
+File 'dominion.c'
+Lines executed:16.64% of 559
+Branches executed:16.23% of 419
+Taken at least once:12.65% of 419
+Calls executed:7.37% of 95
+Creating 'dominion.c.gcov'
+
+----------Testing the Refactored Mine Card.----------
+-----Testing Copper To Silver-----
+SUCCESS: The cards drawn are the correct ammount.
+SUCCESS: The new card is a silver
+SUCCESS: Return successful
+-----Testing Copper To Gold-----
+FAILURE: the funciton let the upgrade go through
+File 'dominion.c'
+Lines executed:23.61% of 559
+Branches executed:33.65% of 419
+Taken at least once:16.71% of 419
+Calls executed:14.74% of 95
+Creating 'dominion.c.gcov'
+
+----------Testing the Refactored Council Room Card.----------
+FAILURE: The cards drawn are wrong, Expected: 8, Actual: 9.
+FAILURE: The deck is wrong, Expected: 1, Actual: 0.
+-----Testing The Other Player-----
+FAILURE: The cards drawn for the other player are wrong, Expected: 1, Actual: 0.
+FAILURE: The deck is wrong for the other player, Expected: 9, Actual: 10.
+SUCCESS: Return successful
+File 'dominion.c'
+Lines executed:19.14% of 559
+Branches executed:18.14% of 419
+Taken at least once:14.32% of 419
+Calls executed:10.53% of 95
+Creating 'dominion.c.gcov'
+
+----------Testing the Smithy Card Through cardEffect.----------
+-----Testing shuffle during smithy-----
+FAILURE: The cards drawn are wrong, Expected: 7, Actual: 4.
+FAILURE: The deck is wrong, Expected: 2, Actual: 0.
+SUCCESS: Other player's hand count is correct.
+SUCCESS: Other player's deck count is correct.
+SUCCESS: Return successful
+File 'dominion.c'
+Lines executed:21.82% of 559
+Branches executed:23.63% of 419
+Taken at least once:14.80% of 419
+Calls executed:12.63% of 95
+Creating 'dominion.c.gcov'
+
+----------Testing the Adventurer Card Through cardEffect.----------
+-----Testing shuffle during adventurer-----
+SUCCESS: Cards are valid treasures.
+SUCCESS: Other player's hand count is correct.
+SUCCESS: Other player's deck count is correct.
+SUCCESS: Return successful
+File 'dominion.c'
+Lines executed:20.21% of 559
+Branches executed:23.15% of 419
+Taken at least once:13.84% of 419
+Calls executed:9.47% of 95
+Creating 'dominion.c.gcov'
+
+----------Testing the Remodel Card Through cardEffect.----------
+SUCCESS: The cards in the hand are the correct ammount.
+FAILURE: The card is wrong, Expected: 7, Actual: 0.
+SUCCESS: Other player's hand count is correct.
+SUCCESS: Other player's deck count is correct.
+SUCCESS: Return successful
+File 'dominion.c'
+Lines executed:23.08% of 559
+Branches executed:31.74% of 419
+Taken at least once:15.27% of 419
+Calls executed:14.74% of 95
+Creating 'dominion.c.gcov'
+
+----------Testing the Great Hall Card Through cardEffect.----------
+FAILURE: The cards in the hand are wrong, Expected: 5, Actual: 6.
+SUCCESS: Actions was increased by one.
+SUCCESS: Other player's hand count is correct.
+SUCCESS: Other player's deck count is correct.
+SUCCESS: Return successful
+File 'dominion.c'
+Lines executed:20.21% of 559
+Branches executed:22.67% of 419
+Taken at least once:13.84% of 419
+Calls executed:11.58% of 95
+Creating 'dominion.c.gcov'
+

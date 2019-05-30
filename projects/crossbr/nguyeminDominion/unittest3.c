@@ -15,9 +15,9 @@ int main()
 	//Initialize the variables
 	int choice1 = 0;
 	int choice2 = 0;
+	int choice3 = 0;
 	int handPos = 0;
-	int j = 0;
-	int i = 0;
+	int bonus = 0;
 
 	int seed = 1000;
 	int numPlayers = 2;
@@ -38,7 +38,7 @@ int main()
 	printf("-----Testing Copper To Silver-----\n");
 
 	memcpy(&actualG, &copyG, sizeof(struct gameState));
-	int returnValue = playMine(choice1, choice2, &actualG, handPos, j, playerOne, i);
+	int returnValue = cardEffect(mine, choice1, choice2, choice3, &actualG, handPos, &bonus);
 
 	//First assert is to verify that the hand size is one less due to the discard of the card
 	if(actualG.handCount[playerOne] == copyG.handCount[playerOne] - 1)
@@ -72,7 +72,7 @@ int main()
 	printf("-----Testing Copper To Gold-----\n");
 
 	memcpy(&actualG, &copyG, sizeof(struct gameState));
-	returnValue = playMine(choice1, choice2, &actualG, handPos, j, playerOne, i);
+	returnValue = cardEffect(mine, choice1, choice2, choice3, &actualG, handPos, &bonus);
 
 	//First assert is to verify that the hand size is one less due to the discard of the card
 	if(returnValue == -1)

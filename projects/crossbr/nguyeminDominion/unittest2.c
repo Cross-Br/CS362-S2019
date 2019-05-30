@@ -12,12 +12,6 @@
 int main()
 {
 	printf("----------Testing the Refactored Adventurer Card.----------\n");
-	//Initialize the variables
-	int drawnTreasure = 0;
-	int cardDrawn = 0;
-	int temphand[MAX_HAND];
-	int z = 0;
-
 	int seed = 1000;
 	int numPlayers = 2;
 	int playerOne = 0;
@@ -28,17 +22,8 @@ int main()
 	//Off of the created variables above, create a new game state and set player cards
 	initializeGame(numPlayers, k, seed, &copyG);
 
-	// Draw two golds into the deck, as this will fail if there are only coppers due to the bug introduced
-	// That bug was that adventurer only will recognize golds and silvers, not coppers. If only coppers are in
-	// The deck, then it will do an infinite loop. I did not test this on purpose due to the hassle for both
-	// The grader having to disable it and myself. I will write that code commented at the end.
-
-	//Drawing two golds into the deck to avoid the infinite process
-	gainCard(gold, &copyG, 1, playerOne);
-	gainCard(gold, &copyG, 1, playerOne);
-
 	memcpy(&actualG, &copyG, sizeof(struct gameState));
-	int returnValue = playAdventurer(&actualG, drawnTreasure, playerOne, cardDrawn, z, temphand);
+	int returnValue = adventurerEffect(0, &actualG);
 
 	//First assert is to verify that two cards have been added to the hand
 	if(actualG.handCount[playerOne] == copyG.handCount[playerOne] + 2)

@@ -38,15 +38,6 @@ int main()
 		discardCard(1, playerOne, &copyG, 0);
 	}
 
-	// Draw two golds into the discard, as this will fail if there are only coppers due to the bug introduced
-	// That bug was that adventurer only will recognize golds and silvers, not coppers. If only coppers are in
-	// The deck, then it will do an infinite loop. I did not test this on purpose due to the hassle for both
-	// The grader having to disable it and myself. I will write that code commented at the end.
-
-	//Drawing two golds into the discard to avoid the infinite process
-	gainCard(gold, &copyG, 0, playerOne);
-	gainCard(gold, &copyG, 0, playerOne);
-
 	memcpy(&actualG, &copyG, sizeof(struct gameState));
 	int returnValue = cardEffect(adventurer, choice1, choice2, choice3, &actualG, handPos, &bonus);
 

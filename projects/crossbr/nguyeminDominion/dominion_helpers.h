@@ -3,6 +3,15 @@
 
 #include "dominion.h"
 
+/*  
+* Refactored functions
+*/
+int smithyEffect(int handPos, int currentPlayer, struct gameState *state);
+int adventurerEffect(int currentPlayer, struct gameState *state);
+int villageEffect(int handPos, int currentPlayer, struct gameState *state);
+int greatHallEffect(int handPos, int currentPlayer, struct gameState *state);
+int councilRoomEffect(int handPos, int currentPlayer, struct gameState *state);
+
 int drawCard(int player, struct gameState *state);
 int updateCoins(int player, struct gameState *state, int bonus);
 int discardCard(int handPos, int currentPlayer, struct gameState *state, 

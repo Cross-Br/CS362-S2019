@@ -15,7 +15,6 @@ int main()
 {
 	printf("----------Testing the Refactored Council Room Card W/ Random Tests----------\n");
 	//Initialize the variables
-	int i = 0;
 	int j, k, l, m, n, o, p;
 	int handPos = 0;
 	int playerCount;
@@ -28,7 +27,7 @@ int main()
 	struct gameState baseG, actualG;
 
 	//This is only run a couple times (20) but still covers 100% of the branches
-	for(j = 0; j < 20; j++)
+	for(j = 0; j < 10; j++)
 	{
 		//Randomize the gamestate
 		for(k = 0; k < sizeof(struct gameState); k++)
@@ -61,7 +60,7 @@ int main()
 
 		//Gamestate is copied and the funciton is ran
 		memcpy(&actualG, &baseG, sizeof(struct gameState));
-		int returnValue = playCouncilRoom(&actualG, handPos, i, 0);
+		int returnValue = councilRoomEffect(handPos, 0, &actualG);
 
 		//First assert is to check to make sure that the hand count has gone up 3
 		if(actualG.handCount[0] == baseG.handCount[0] + 3)

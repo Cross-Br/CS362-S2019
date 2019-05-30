@@ -16,13 +16,7 @@ int main()
 	printf("----------Testing the Refactored Council Room Card W/ Random Tests----------\n");
 	//Initialize the variables
 	int j, k, l, m, n, o, p;
-	int z = 0;
 	int playerCount;
-
-	//Initializing some variables that adventurer needs that are not important
-	int drawnTreasure = 0;
-	int cardDrawn = 0;
-	int temphand[MAX_HAND];
 
 	//Setting up random
 	SelectStream(2);
@@ -66,7 +60,7 @@ int main()
 
 		//Here the gamestate is copied and the funciton is actually run
 		memcpy(&actualG, &baseG, sizeof(struct gameState));
-		int returnValue = playAdventurer(&actualG, drawnTreasure, 0, cardDrawn, z, temphand);
+		int returnValue = adventurerEffect(0, &actualG);
 
 		//First assert is to verify that two cards have been added to the hand
 		if(actualG.handCount[0] == baseG.handCount[0] + 2)

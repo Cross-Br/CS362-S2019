@@ -1,4 +1,4 @@
-// unittest1.c
+// ramdomtestcard1.c
 // This will randomly test the card smithy
 
 #include "dominion.h"
@@ -15,7 +15,6 @@ int main()
 {
 	printf("----------Testing the Refactored Smithy Card W/ Random Tests----------\n");
 	//Initialize the variables
-	int i = 0;
 	int j, k, l, m, n, o, p;
 	int handPos = 0;
 	int playerCount;
@@ -64,7 +63,7 @@ int main()
 		baseG.playedCardCount = 0;
 
 		memcpy(&actualG, &baseG, sizeof(struct gameState));
-		int returnValue = playSmithy(&actualG, handPos, i, 0);
+		int returnValue = smithyEffect(handPos, 0, &actualG);
 
 		//First assert is to check to make sure that the hand count has gone up 2 (+3 due to smithy and -1 due to losing card)
 		//assert(actualG.handCount[0] == baseG.handCount[0] + 2);

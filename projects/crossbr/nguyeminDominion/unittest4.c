@@ -13,7 +13,6 @@ int main()
 {
 	printf("----------Testing the Refactored Council Room Card.----------\n");
 	//Initialize the variables
-	int i = 0;
 	int handPos = 0;
 
 	int seed = 1000;
@@ -27,7 +26,7 @@ int main()
 	initializeGame(numPlayers, k, seed, &copyG);
 
 	memcpy(&actualG, &copyG, sizeof(struct gameState));
-	int returnValue = playCouncilRoom(&actualG, handPos, i, playerOne);
+	int returnValue = councilRoomEffect(handPos, 0, &actualG);
 
 	//First assert is to check to make sure that the hand count has gone up 3
 	if(actualG.handCount[playerOne] == copyG.handCount[playerOne] + 3)

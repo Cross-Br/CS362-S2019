@@ -16,7 +16,7 @@ int main()
 	int choice1 = 0;
 	int choice2 = adventurer;
 	int choice3 = 0;
-	int handPos = 0;
+	int handPos = 1;
 	int bonus = 0;
 
 	int seed = 1000;
